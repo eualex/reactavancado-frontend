@@ -4,6 +4,7 @@ import { client } from 'graphql/client'
 import { GET_LANDING_PAGE } from 'graphql/queries/getLandingPage'
 import { LandingPageProps } from 'types/api'
 import { getImageUrl } from 'utils/getImageUrl'
+import { formatPrice } from 'utils/formatPrice'
 
 import SectionHero from 'components/SectionHero'
 import SectionAboutProject from 'components/SectionAboutProject'
@@ -25,7 +26,8 @@ const Index = ({
   sectionTech,
   sectionConcepts,
   sectionModules,
-  sectionAgenda
+  sectionAgenda,
+  pricingBox
 }: LandingPageProps) => (
   <>
     <SectionHero logo={logo} header={header} />
@@ -34,7 +36,7 @@ const Index = ({
     <SectionConcepts {...sectionConcepts} />
     <SectionModules {...sectionModules} />
     <SectionAgenda {...sectionAgenda} />
-    <PricingBox />
+    <PricingBox {...pricingBox} />
     <SectionAboutUs />
     <SectionReviews />
     <SectionFaq />
@@ -80,6 +82,12 @@ export const getStaticProps: GetStaticProps = async () => {
     }))
   }
 
+  const pricingBox = {
+    ...landingPage.pricingBox,
+    totalPrice: formatPrice(landingPage.pricingBox.totalPrice),
+    priceInstallment: formatPrice(landingPage.pricingBox.priceInstallment)
+  }
+
   return {
     props: {
       ...landingPage,
@@ -89,7 +97,8 @@ export const getStaticProps: GetStaticProps = async () => {
       sectionTech,
       sectionConcepts: landingPage.sectionConcepts,
       sectionModules: landingPage.sectionModules,
-      sectionAgenda: landingPage.sectionAgenda
+      sectionAgenda: landingPage.sectionAgenda,
+      pricingBox
     }
   }
 }
