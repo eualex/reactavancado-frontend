@@ -18,11 +18,16 @@ import SectionFaq from 'components/SectionFaq'
 import Footer from 'components/Footer'
 import JsonSchema from 'components/JsonSchema'
 
-const Index = ({ logo, header, sectionAboutProject }: LandingPageProps) => (
+const Index = ({
+  logo,
+  header,
+  sectionAboutProject,
+  sectionTech
+}: LandingPageProps) => (
   <>
     <SectionHero logo={logo} header={header} />
     <SectionAboutProject {...sectionAboutProject} />
-    <SectionTech />
+    <SectionTech {...sectionTech} />
     <SectionConcepts />
     <SectionModules />
     <SectionAgenda />
@@ -45,28 +50,40 @@ export const getStaticProps: GetStaticProps = async () => {
     url: getImageUrl(landingPage.logo.url)
   }
 
-  const headerImg = {
-    ...landingPage.header.image,
-    url: getImageUrl(landingPage.header.image.url)
+  const header = {
+    ...landingPage.header,
+    image: {
+      ...landingPage.header.image,
+      url: getImageUrl(landingPage.header.image.url)
+    }
   }
 
-  const aboutProjectImg = {
-    ...landingPage.sectionAboutProject.image,
-    url: getImageUrl(landingPage.sectionAboutProject.image.url)
+  const sectionAboutProject = {
+    ...landingPage.sectionAboutProject,
+    image: {
+      ...landingPage.sectionAboutProject.image,
+      url: getImageUrl(landingPage.sectionAboutProject.image.url)
+    }
+  }
+
+  const sectionTech = {
+    title: landingPage.sectionTech.title,
+    techIcons: landingPage.sectionTech.techIcons.map((i) => ({
+      title: i.title,
+      icon: {
+        name: i.icon.name,
+        url: getImageUrl(i.icon.url)
+      }
+    }))
   }
 
   return {
     props: {
       ...landingPage,
       logo,
-      header: {
-        ...landingPage.header,
-        image: headerImg
-      },
-      sectionAboutProject: {
-        ...landingPage.sectionAboutProject,
-        image: aboutProjectImg
-      }
+      header,
+      sectionAboutProject,
+      sectionTech
     }
   }
 }
