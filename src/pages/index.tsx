@@ -27,7 +27,8 @@ const Index = ({
   sectionConcepts,
   sectionModules,
   sectionAgenda,
-  pricingBox
+  pricingBox,
+  sectionAboutUs
 }: LandingPageProps) => (
   <>
     <SectionHero logo={logo} header={header} />
@@ -37,7 +38,7 @@ const Index = ({
     <SectionModules {...sectionModules} />
     <SectionAgenda {...sectionAgenda} />
     <PricingBox {...pricingBox} />
-    <SectionAboutUs />
+    <SectionAboutUs {...sectionAboutUs} />
     <SectionReviews />
     <SectionFaq />
     <Footer />
@@ -88,6 +89,21 @@ export const getStaticProps: GetStaticProps = async () => {
     priceInstallment: formatPrice(landingPage.pricingBox.priceInstallment)
   }
 
+  const sectionAboutUs = {
+    title: landingPage.sectionAboutUs.title,
+    authors: landingPage.sectionAboutUs.authors.map((author) => ({
+      ...author,
+      photo: {
+        alternativeText: author.photo.alternativeText,
+        url: getImageUrl(author.photo.url)
+      },
+      socialLinks: author.socialLinks.map((socialLink) => ({
+        title: socialLink.title,
+        url: getImageUrl(socialLink.url)
+      }))
+    }))
+  }
+
   return {
     props: {
       ...landingPage,
@@ -98,7 +114,8 @@ export const getStaticProps: GetStaticProps = async () => {
       sectionConcepts: landingPage.sectionConcepts,
       sectionModules: landingPage.sectionModules,
       sectionAgenda: landingPage.sectionAgenda,
-      pricingBox
+      pricingBox,
+      sectionAboutUs
     }
   }
 }
