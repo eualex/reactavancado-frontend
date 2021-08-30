@@ -62,17 +62,28 @@ export async function fecthLandingPageData() {
     }))
   }
 
+  const sectionReviews = {
+    title: landingPage.sectionReviews.title,
+    reviews: landingPage.sectionReviews.reviews.map((r) => ({
+      ...r,
+      photo: {
+        name: r.photo.name,
+        url: getImageUrl(r.photo.url)
+      }
+    }))
+  }
+
   return {
-    data: {
-      logo,
-      header,
-      sectionAboutProject,
-      sectionTech,
-      sectionConcepts: landingPage.sectionConcepts,
-      sectionModules: landingPage.sectionModules,
-      sectionAgenda: landingPage.sectionAgenda,
-      pricingBox,
-      sectionAboutUs
-    }
+    logo,
+    header,
+    sectionAboutProject,
+    sectionTech,
+    sectionConcepts: landingPage.sectionConcepts,
+    sectionModules: landingPage.sectionModules,
+    sectionAgenda: landingPage.sectionAgenda,
+    pricingBox,
+    sectionAboutUs,
+    sectionReviews,
+    sectionFaq: landingPage.sectionFaq
   }
 }
